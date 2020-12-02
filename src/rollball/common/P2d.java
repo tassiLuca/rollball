@@ -4,6 +4,7 @@ package rollball.common;
  * A 2-dimensional point.
  */
 public final class P2d {
+
     /**
      * The point abscissa.
      */

@@ -3,7 +3,7 @@ package rollball.common;
 /**
  * A 2-dimensional point.
  */
-public class P2d {
+public final class P2d {
     /**
      * The point abscissa.
      */

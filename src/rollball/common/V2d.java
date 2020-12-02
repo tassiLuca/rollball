@@ -3,7 +3,7 @@ package rollball.common;
 /**
  * A 2-dimensional vector.
  */
-public class V2d {
+public final class V2d {
 
     private final double x;
     private final double y;

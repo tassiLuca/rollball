@@ -14,9 +14,23 @@ public interface GameObject {
     P2d getCurrentPos();
 
     /**
+     * Set the game object position.
+     * @param pos
+     *          the game object position
+     */
+    void setPos(P2d pos);
+
+    /**
      * @return a V2d representing the current velocity
      */
     V2d getCurrentVel();
+
+    /**
+     * Set the game object velocity.
+     * @param vel
+     *          the game object velocity
+     */
+    void setVel(V2d vel);
 
     /**
      * Update the object position consistently with

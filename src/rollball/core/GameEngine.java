@@ -1,11 +1,12 @@
 package rollball.core;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import rollball.common.P2d;
 import rollball.common.V2d;
 import rollball.graphics.Scene;
+import rollball.input.Command;
 import rollball.model.Ball;
 import rollball.model.PickUpObj;
 import rollball.model.World;
@@ -16,8 +17,6 @@ import rollball.model.World;
 public class GameEngine {
 
     private static final long PERIOD = 50;
-    private final Logger logger = Logger.getLogger("GameEngine");
-
     /**
      * The world game.
      */
@@ -26,8 +25,13 @@ public class GameEngine {
      * The game view.
      */
     private final Scene view;
+    /**
+     * 
+     */
+    private final BlockingQueue<Command> cmdQueue;
 
     public GameEngine() {
+        this.cmdQueue = new ArrayBlockingQueue<>(100);
         this.world = new World();
         this.world.setBall(new Ball(new P2d(-1, -1), new V2d(1, 1)));
         this.world.addPickUp(new PickUpObj(new P2d(0, 1)));
@@ -36,7 +40,9 @@ public class GameEngine {
     }
 
     /**
-     * Implements the game loop pattern.
+     * Implements the GAME LOOP pattern: control loop ruling the 
+     * execution of a game. Decouple the progression of game time 
+     * from user input and processor speed. 
      */
     public void mainLoop() {
         long lastTime = System.currentTimeMillis();
@@ -74,7 +80,10 @@ public class GameEngine {
     }
 
     private void processInput() {
-        logger.log(Level.INFO, "...process input...");
+        final Command cmd = cmdQueue.poll();
+        if (cmd != null) {
+            cmd.execute(world);
+        }
     }
 
 }

@@ -26,32 +26,34 @@ public final class P2d {
     }
 
     /**
-     * 
-     * @param p
-     * @return a new V2d
+     * Subtract a vector to the point.
+     * @param v
+     *          The V2d vector to subtract to the point
+     * @return a new P2d, the result of subtraction
      */
-    public V2d sub(final P2d p) {
-        return new V2d(this.x - p.getX(), this.y - p.getY());
+    public P2d sub(final V2d v) {
+        return new P2d(this.x - v.getX(), this.y - v.getY());
     }
 
     /**
-     * 
+     * Sum a vector to the point.
      * @param v
-     * @return a new P2d
+     *          The V2d vector to sum to the point
+     * @return a new P2d, the result of sum
      */
     public P2d sum(final V2d v) {
         return new P2d(this.x + v.getX(), this.y + v.getY());
     }
 
     /**
-     * @return the x
+     * @return the point abscissa
      */
     public double getX() {
         return this.x;
     }
 
     /**
-     * @return the y
+     * @return the point ordinate
      */
     public double getY() {
         return this.y;

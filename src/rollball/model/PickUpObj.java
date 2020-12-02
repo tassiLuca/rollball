@@ -5,8 +5,8 @@ import rollball.common.V2d;
 
 public class PickUpObj extends AbstractGameObject {
 
-    public PickUpObj(final P2d pos, final V2d vel) {
-        super(pos, vel);
+    public PickUpObj(final P2d pos) {
+        super(pos, new V2d(0, 0));
     }
 
 }

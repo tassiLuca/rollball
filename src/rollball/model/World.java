@@ -23,6 +23,13 @@ public class World {
     }
 
     /**
+     * @return the game ball
+     */
+    public Ball getBall() {
+        return this.ball;
+    }
+
+    /**
      * Add a new pickUpObject to the picks set.
      * @param obj
      *          the pickup object

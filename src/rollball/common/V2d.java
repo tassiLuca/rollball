@@ -42,7 +42,7 @@ public final class V2d {
     }
 
     /**
-     * 
+     * Multiply a vector by a scalar.
      * @param fact
      *          the multiplication factor
      * @return a new V2d, result of the vector multiplication.
@@ -52,14 +52,14 @@ public final class V2d {
     }
 
     /**
-     * @return the x
+     * @return the x coordinate
      */
     public double getX() {
         return this.x;
     }
 
     /**
-     * @return the y
+     * @return the y coordinate
      */
     public double getY() {
         return this.y;

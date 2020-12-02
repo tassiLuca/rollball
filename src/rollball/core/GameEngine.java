@@ -3,6 +3,13 @@ package rollball.core;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import rollball.common.P2d;
+import rollball.common.V2d;
+import rollball.graphics.Scene;
+import rollball.model.Ball;
+import rollball.model.PickUpObj;
+import rollball.model.World;
+
 /**
  * Game engine skeleton.
  */
@@ -10,6 +17,23 @@ public class GameEngine {
 
     private static final long PERIOD = 1000;
     private final Logger logger = Logger.getLogger("GameEngine");
+
+    /**
+     * The world game.
+     */
+    private final World world;
+    /**
+     * The game view.
+     */
+    private final Scene view;
+    
+    public GameEngine() {
+        this.world = new World();
+        this.world.setBall(new Ball(new P2d(-1, -1), new V2d(1, 1)));
+        this.world.addPickUp(new PickUpObj(new P2d(0, 1)));
+        this.world.addPickUp(new PickUpObj(new P2d(2, 0)));
+        this.view = new Scene(this.world, 600, 600);
+    }
 
     /**
      * Implements the game loop pattern.
@@ -42,11 +66,11 @@ public class GameEngine {
     }
 
     private void render() {
-        logger.log(Level.INFO, "...render...");
+        this.view.render();
     }
 
     private void updateGame(final int elapsed) {
-        logger.log(Level.INFO, "...update: elapsed " + elapsed);
+        this.world.updateWorld(elapsed);
     }
 
     private void processInput() {

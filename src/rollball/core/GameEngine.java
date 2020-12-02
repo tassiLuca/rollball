@@ -15,7 +15,7 @@ import rollball.model.World;
  */
 public class GameEngine {
 
-    private static final long PERIOD = 1000;
+    private static final long PERIOD = 50;
     private final Logger logger = Logger.getLogger("GameEngine");
 
     /**
@@ -26,13 +26,13 @@ public class GameEngine {
      * The game view.
      */
     private final Scene view;
-    
+
     public GameEngine() {
         this.world = new World();
         this.world.setBall(new Ball(new P2d(-1, -1), new V2d(1, 1)));
         this.world.addPickUp(new PickUpObj(new P2d(0, 1)));
         this.world.addPickUp(new PickUpObj(new P2d(2, 0)));
-        this.view = new Scene(this.world, 600, 600);
+        this.view = new Scene(this.world);
     }
 
     /**

@@ -24,11 +24,6 @@ public abstract class AbstractGameObject implements GameObject {
     }
 
     @Override
-    public void setPos(final P2d pos) {
-        this.pos = pos;
-    }
-
-    @Override
     public P2d getCurrentPos() {
         return this.pos;
     }
@@ -36,11 +31,6 @@ public abstract class AbstractGameObject implements GameObject {
     @Override
     public V2d getCurrentVel() {
         return this.vel;
-    }
-
-    @Override
-    public void setVel(final V2d vel) {
-        this.vel = vel;
     }
 
     @Override

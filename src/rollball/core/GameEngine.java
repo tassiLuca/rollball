@@ -8,8 +8,8 @@ import java.util.logging.Logger;
  */
 public class GameEngine {
 
-    private final long period = 1000;
-    private Logger logger = Logger.getLogger("GameEngine");
+    private static final long PERIOD = 1000;
+    private final Logger logger = Logger.getLogger("GameEngine");
 
     /**
      * Implements the game loop pattern.
@@ -34,9 +34,9 @@ public class GameEngine {
      */
     private void waitForNextFrame(final long current) {
         final long dt = System.currentTimeMillis() - current;
-        if (dt < this.period) {
+        if (dt < PERIOD) {
             try {
-                Thread.sleep(this.period - dt);
+                Thread.sleep(PERIOD - dt);
             } catch (InterruptedException e) { }
         }
     }

@@ -23,27 +23,37 @@ public abstract class AbstractGameObject implements GameObject {
         this.vel = vel;
     }
 
-    @Override
+    /**
+     * {@inheritDoc}
+     */
     public P2d getCurrentPos() {
         return this.pos;
     }
 
-    @Override
+    /**
+     * {@inheritDoc}
+     */
     public void setVel(final V2d vel) {
         this.vel = vel;
     }
 
-    @Override
+    /**
+     * {@inheritDoc}
+     */
     public V2d getCurrentVel() {
         return this.vel;
     }
 
-    @Override
+    /**
+     * {@inheritDoc}
+     */
     public void setPos(final P2d pos) {
         this.pos = pos;
     }
 
-    @Override
+    /**
+     * {@inheritDoc}
+     */
     public void updateState(final int dt) {
         this.pos = this.pos.sum(this.vel.mul(dt * TIME_CONVERSION_FACTOR));
     }

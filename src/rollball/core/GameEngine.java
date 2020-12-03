@@ -7,14 +7,16 @@ import rollball.common.P2d;
 import rollball.common.V2d;
 import rollball.graphics.Scene;
 import rollball.input.Command;
+import rollball.input.Controller;
 import rollball.model.Ball;
 import rollball.model.PickUpObj;
 import rollball.model.World;
 
 /**
+ * [CONTROLLER]
  * Game engine skeleton.
  */
-public class GameEngine {
+public class GameEngine implements Controller {
 
     private static final long PERIOD = 50;
     /**
@@ -26,7 +28,8 @@ public class GameEngine {
      */
     private final Scene view;
     /**
-     * 
+     * The queue of commands to be processed.
+     * [NOTE] BlockingQueue implementations are thread-safe.
      */
     private final BlockingQueue<Command> cmdQueue;
 
@@ -37,6 +40,7 @@ public class GameEngine {
         this.world.addPickUp(new PickUpObj(new P2d(0, 1)));
         this.world.addPickUp(new PickUpObj(new P2d(2, 0)));
         this.view = new Scene(this.world);
+        this.view.setInputController(this);
     }
 
     /**
@@ -71,10 +75,19 @@ public class GameEngine {
         }
     }
 
+    /**
+     * View rendering.
+     */
     private void render() {
         this.view.render();
     }
 
+    /**
+     * Updates the world consistently with the amount of 
+     * time passed from the last update.
+     * @param elapsed
+     *          the amount of time elapsed from the last update
+     */
     private void updateGame(final int elapsed) {
         this.world.updateWorld(elapsed);
     }
@@ -84,6 +97,13 @@ public class GameEngine {
         if (cmd != null) {
             cmd.execute(world);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void notifyCommand(final Command cmd) {
+        cmdQueue.add(cmd);
     }
 
 }

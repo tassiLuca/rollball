@@ -10,7 +10,9 @@ public interface Command {
     /**
      * Update the world consistently with 
      * the received inputs.
+     * @param world
+     *          the world game
      */
-    public void execute(World world);
+    void execute(World world);
 
 }

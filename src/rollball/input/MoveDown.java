@@ -6,7 +6,9 @@ import rollball.model.World;
 
 public class MoveDown implements Command {
 
-    @Override
+    /**
+     * {@inheritDoc}
+     */
     public void execute(final World world) {
         final Ball ball = world.getBall();
         final double speed = ball.getCurrentVel().module();

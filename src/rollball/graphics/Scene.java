@@ -26,6 +26,10 @@ import rollball.model.GameObject;
 import rollball.model.PickUpObj;
 import rollball.model.World;
 
+/**
+ * [VIEW]
+ * Graphics management.
+ */
 public final class Scene {
 
     private final JFrame frame = new JFrame("Roll A Ball");

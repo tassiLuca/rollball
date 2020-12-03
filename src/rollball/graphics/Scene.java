@@ -8,12 +8,19 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import rollball.common.P2d;
+import rollball.input.MoveDown;
+import rollball.input.MoveLeft;
+import rollball.input.MoveRight;
+import rollball.input.MoveUp;
+import rollball.input.Controller;
 import rollball.model.Ball;
 import rollball.model.GameObject;
 import rollball.model.PickUpObj;
@@ -23,6 +30,7 @@ public final class Scene {
 
     private final JFrame frame = new JFrame("Roll A Ball");
     private final World world;
+    private Controller controller;
 
     public Scene(final World world) {
         this.world = world;
@@ -40,18 +48,31 @@ public final class Scene {
         frame.setVisible(true);
     }
 
+    public void setInputController(final Controller c) {
+        this.controller = c;
+    }
+
     public void render() {
         frame.repaint();
     }
 
-    private final class ScenePanel extends JPanel {
+    private final class ScenePanel extends JPanel implements KeyListener {
 
+        private static final int OBJ_DIM = 40;
+        private static final int UP = 38;
+        private static final int DOWN = 40;
+        private static final int RIGHT = 39;
+        private static final int LEFT = 37;
         private static final long serialVersionUID = 1L;
         private final int centerX;
         private final int centerY;
 
         private ScenePanel(final int w, final int h) {
             this.setSize(w, h);
+            this.addKeyListener(this);
+            this.setFocusable(true);
+            this.setFocusTraversalKeysEnabled(false);
+            this.requestFocusInWindow(); 
             this.centerX = w / 2;
             this.centerY = h / 2;
         }
@@ -73,14 +94,33 @@ public final class Scene {
                 if (obj instanceof Ball) {
                         g2.setColor(Color.BLUE);
                         g2.setStroke(strokeBall);
-                        g2.drawOval(x - 20, y - 20, 40, 40);
+                        g2.drawOval(x, y, OBJ_DIM, OBJ_DIM);
                 } else if (obj instanceof PickUpObj) {
                         g2.setColor(Color.RED);
                         g2.setStroke(strokePick);
-                        g2.drawRect(x - 20, y - 20, 40, 40);
+                        g2.drawRect(x, y, OBJ_DIM, OBJ_DIM);
                 }
             });
         }
+
+        @Override
+        public void keyPressed(final KeyEvent e) {
+            if (e.getKeyCode() == UP) {
+                controller.notifyCommand(new MoveUp());
+            } else if (e.getKeyCode() == DOWN) {
+                controller.notifyCommand(new MoveDown());
+            } else if (e.getKeyCode() == RIGHT) {
+                controller.notifyCommand(new MoveRight());
+            } else if (e.getKeyCode() == LEFT) {
+                controller.notifyCommand(new MoveLeft());
+            }
+        }
+
+        @Override
+        public void keyTyped(final KeyEvent e) { }
+
+        @Override
+        public void keyReleased(final KeyEvent e) { }
     }
 
 }

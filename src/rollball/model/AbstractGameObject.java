@@ -17,10 +17,16 @@ public abstract class AbstractGameObject implements GameObject {
      * The current object velocity.
      */
     private V2d vel;
+    private BoundingBox bBox;
 
-    public AbstractGameObject(final P2d pos, final V2d vel) {
+    public AbstractGameObject(final P2d pos, final V2d vel, final BoundingBox bBox) {
         this.pos = pos;
         this.vel = vel;
+        this.bBox = bBox;
+    }
+
+    public BoundingBox getBoundingBox() {
+        return this.bBox;
     }
 
     /**

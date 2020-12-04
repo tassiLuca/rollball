@@ -15,8 +15,16 @@ public class World {
      * The set of pickup objects.
      */
     private final Set<PickUpObj> picks = new HashSet<>();
-    private RectBoundingBox worldBox;
+    /**
+     * The world bounding box.
+     */
+    private final RectBoundingBox worldBox;
 
+    /**
+     * Initialize a new word.
+     * @param box
+     *          the world rectangular bounding box.
+     */
     public World(final RectBoundingBox box) {
         this.worldBox = box;
     }
@@ -45,6 +53,10 @@ public class World {
         this.picks.add(obj);
     }
 
+    /** 
+     * Check if the ball is touching the world boundaries
+     * and, if so, flips the direction of the ball.
+     */
     private void checkBoundaries() {
         final P2d ballPos = this.ball.getCurrentPos();
         final double ballRadius = this.ball.getRadius();
@@ -52,7 +64,7 @@ public class World {
         final double bottomLimit = this.worldBox.getBottomRightCorner().getY();
         final double leftLimit = this.worldBox.getUpperLeftCorner().getX();
         final double rightLimit = this.worldBox.getBottomRightCorner().getX();
-        //
+        // Upper and bottom boundaries
         if (ballPos.getY() + ballRadius > upperLimit) {
             this.ball.setPos(new P2d(ballPos.getX(), upperLimit - ballRadius));
             this.ball.flipVelOnY();
@@ -60,7 +72,7 @@ public class World {
             this.ball.setPos(new P2d(ballPos.getX(), bottomLimit + ballRadius));
             this.ball.flipVelOnY();
         }
-        //
+        // Left and right boundaries
         if (ballPos.getX() + ballRadius > rightLimit) {
             this.ball.setPos(new P2d(rightLimit - ballRadius, ballPos.getY()));
             this.ball.flipVelOnX();
@@ -70,6 +82,10 @@ public class World {
         }
     }
 
+    /**
+     * Check if the ball is touching a pickup object.
+     * In this case delete it.
+     */
     private void checkCollisions() {
         final P2d ballPos = this.ball.getCurrentPos();
         final double ballRadius = this.ball.getRadius();
@@ -105,6 +121,10 @@ public class World {
         return objects;
     }
 
+    /**
+     * 
+     * @return the world bounding bo
+     */
     public RectBoundingBox getBoundingBox() {
         return this.worldBox;
     }

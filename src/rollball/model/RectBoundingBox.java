@@ -2,12 +2,21 @@ package rollball.model;
 
 import rollball.common.P2d;
 
+/**
+ * Specialize a bounding box for rectangular shapes.
+ */
 public class RectBoundingBox implements BoundingBox {
-
-    private P2d upperLeftCorner;
-    private P2d bottomRightCorner;
+    /**
+     * The upper left corner point.
+     */
+    private final P2d upperLeftCorner;
+    /**
+     * The bottom right corner point.
+     */
+    private final P2d bottomRightCorner;
 
     /**
+     * Initialize a new rectangular bounding box.
      * @param upperLeftCorner
      * @param bottomRightCorner
      */
@@ -16,15 +25,24 @@ public class RectBoundingBox implements BoundingBox {
         this.bottomRightCorner = bottomRightCorner;
     }
 
+    /**
+     * @return the upper left corner point
+     */
     public P2d getUpperLeftCorner() {
         return this.upperLeftCorner;
     }
 
+    /**
+     * @return the bottom right corner point
+     */
     public P2d getBottomRightCorner() {
         return this.bottomRightCorner;
     }
 
-    @Override
+    /**
+     * Superfluous for this game!
+     * {@inheritDoc}
+     */
     public boolean isCollidingWith(final P2d p, final double radius) {
         // TODO Auto-generated method stub
         return false;

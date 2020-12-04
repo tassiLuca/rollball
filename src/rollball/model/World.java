@@ -53,19 +53,19 @@ public class World {
         final double leftLimit = this.worldBox.getUpperLeftCorner().getX();
         final double rightLimit = this.worldBox.getBottomRightCorner().getX();
         //
-        if (ballPos.getY() + ballRadius >= upperLimit) {
+        if (ballPos.getY() + ballRadius > upperLimit) {
             this.ball.setPos(new P2d(ballPos.getX(), upperLimit - ballRadius));
             this.ball.flipVelOnY();
-        } else if (ballPos.getY() - ballRadius <= bottomLimit) {
+        } else if (ballPos.getY() - ballRadius < bottomLimit) {
             this.ball.setPos(new P2d(ballPos.getX(), bottomLimit + ballRadius));
             this.ball.flipVelOnY();
         }
         //
-        if (ballPos.getX() + ballRadius >= rightLimit) {
+        if (ballPos.getX() + ballRadius > rightLimit) {
             this.ball.setPos(new P2d(rightLimit - ballRadius, ballPos.getY()));
             this.ball.flipVelOnX();
-        } else if (ballPos.getX() - ballRadius <= leftLimit) {
-            this.ball.setPos(new P2d(rightLimit + ballRadius, ballPos.getY()));
+        } else if (ballPos.getX() - ballRadius < leftLimit) {
+            this.ball.setPos(new P2d(leftLimit + ballRadius, ballPos.getY()));
             this.ball.flipVelOnX();
         }
     }
@@ -87,6 +87,10 @@ public class World {
         final Set<GameObject> objects = new HashSet<>(picks);
         objects.add(ball);
         return objects;
+    }
+
+    public RectBoundingBox getBoundingBox() {
+        return this.worldBox;
     }
 
 }

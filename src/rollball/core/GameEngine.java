@@ -10,6 +10,7 @@ import rollball.input.Command;
 import rollball.input.Controller;
 import rollball.model.Ball;
 import rollball.model.PickUpObj;
+import rollball.model.RectBoundingBox;
 import rollball.model.World;
 
 /**
@@ -35,10 +36,10 @@ public class GameEngine implements Controller {
 
     public GameEngine() {
         this.cmdQueue = new ArrayBlockingQueue<>(100);
-        this.world = new World();
-        this.world.setBall(new Ball(new P2d(-1, -1), new V2d(1, 1)));
-        this.world.addPickUp(new PickUpObj(new P2d(0, 1)));
-        this.world.addPickUp(new PickUpObj(new P2d(2, 0)));
+        this.world = new World(new RectBoundingBox(new P2d(-200, 200), new P2d(200, -200)));
+        this.world.setBall(new Ball(new P2d(0, 0), 50, new V2d(50, 0)));
+        //this.world.addPickUp(new PickUpObj(new P2d(0, 1), 50));
+        this.world.addPickUp(new PickUpObj(new P2d(150, 0), 100));
         this.view = new Scene(this.world);
         this.view.setInputController(this);
     }

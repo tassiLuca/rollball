@@ -14,7 +14,7 @@ public class World {
     /**
      * The set of pickup objects.
      */
-    private final Set<GameObject> picks = new HashSet<>();
+    private final Set<PickUpObj> picks = new HashSet<>();
     private RectBoundingBox worldBox;
 
     public World(final RectBoundingBox box) {
@@ -70,6 +70,21 @@ public class World {
         }
     }
 
+    private void checkCollisions() {
+        final P2d ballPos = this.ball.getCurrentPos();
+        final double ballRadius = this.ball.getRadius();
+        PickUpObj found = null;
+        for (final PickUpObj obj : this.picks) {
+            if (obj.getBoundingBox().isCollidingWith(ballPos, ballRadius)) {
+                found = obj;
+                break;
+            }
+        }
+        if (found != null) {
+            picks.remove(found);
+        }
+    }
+
     /**
      * Update the state of game objects.
      * @param dt
@@ -78,6 +93,7 @@ public class World {
         this.picks.stream().forEach(obj -> obj.updateState(dt));
         this.ball.updateState(dt);
         checkBoundaries();
+        checkCollisions();
     }
 
     /**

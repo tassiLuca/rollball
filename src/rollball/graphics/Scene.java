@@ -63,10 +63,9 @@ public final class Scene {
 
     private final class ScenePanel extends JPanel implements KeyListener {
 
-        private static final int RATIO_X = 100;
-        private static final int RATIO_Y = 100;
+        private static final int RATIO_X = 1;
+        private static final int RATIO_Y = 1;
 
-        private static final int OBJ_DIM = 40;
         private static final int UP = 38;
         private static final int DOWN = 40;
         private static final int RIGHT = 39;

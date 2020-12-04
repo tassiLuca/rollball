@@ -36,9 +36,12 @@ public class GameEngine implements Controller {
 
     public GameEngine() {
         this.cmdQueue = new ArrayBlockingQueue<>(100);
-        this.world = new World(new RectBoundingBox(new P2d(-200, 200), new P2d(200, -200)));
-        this.world.setBall(new Ball(new P2d(0, 0), 50, new V2d(50, 0)));
-        //this.world.addPickUp(new PickUpObj(new P2d(0, 1), 50));
+        this.world = new World(new RectBoundingBox(new P2d(-500, 300), new P2d(500, -300)));
+        this.world.setBall(new Ball(new P2d(0, 0), 25, new V2d(150, 87)));
+        this.world.addPickUp(new PickUpObj(new P2d(78, -89), 12));
+        this.world.addPickUp(new PickUpObj(new P2d(400, 200), 32));
+        this.world.addPickUp(new PickUpObj(new P2d(-205, 100), 150));
+        this.world.addPickUp(new PickUpObj(new P2d(-250, -250), 20));
         this.world.addPickUp(new PickUpObj(new P2d(150, 0), 100));
         this.view = new Scene(this.world);
         this.view.setInputController(this);

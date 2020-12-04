@@ -17,6 +17,11 @@ public final class V2d {
         this.y = y;
     }
 
+    public V2d(final P2d from, final P2d to) {
+        this.x = to.getX() - from.getX();
+        this.y = to.getY() - from.getY();
+    }
+
     /**
      * @param v
      *          the V2d vector to sum

@@ -29,6 +29,14 @@ public abstract class AbstractGameObject implements GameObject {
         return this.bBox;
     }
 
+    public V2d flipVelOnX() {
+        return new V2d(-this.vel.getX(), this.vel.getY());
+    }
+
+    public V2d flipVelOnY() {
+        return new V2d(this.vel.getX(), -this.vel.getY());
+    }
+
     /**
      * {@inheritDoc}
      */

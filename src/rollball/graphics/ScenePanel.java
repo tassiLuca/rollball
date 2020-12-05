@@ -107,7 +107,7 @@ public final class ScenePanel extends JPanel implements KeyListener {
         });
         g2.setFont(scoreFont);
         g2.setColor(Color.GREEN);
-        g2.drawString("SCORE " + gameState.getScore(), 500, 300);
+        g2.drawString("SCORE " + gameState.getScore(), centerX-500, 50);
     }
 
     @Override

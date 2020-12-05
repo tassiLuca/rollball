@@ -12,6 +12,7 @@ public class PickUpObj extends AbstractGameObject {
 
     /**
      * Initialize a new pickup object.
+     * TODO Improved the {@link RectBoundingBox} of the pickup object!
      * @param pos
      *          the central position
      * @param edge

@@ -1,4 +1,4 @@
-package rollball.model;
+package rollball.model.bbox;
 
 import rollball.common.P2d;
 import rollball.common.V2d;

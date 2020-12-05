@@ -67,6 +67,15 @@ public class World {
         this.picks.add(obj);
     }
 
+    /**
+     * Remove the pickup object.
+     * @param obj
+     *          the pickup to remove
+     */
+    public void removePickUp(final PickUpObj obj) {
+        this.picks.remove(obj);
+    }
+
     /** 
      * Check if the ball is touching the world boundaries
      * and, if so, flips the direction of the ball.
@@ -115,7 +124,6 @@ public class World {
             }
         }
         if (found != null) {
-            picks.remove(found);
             this.eventListener.notifyEvent(new HitPickableEvent(found));
         }
     }

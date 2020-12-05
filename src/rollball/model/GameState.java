@@ -3,6 +3,7 @@ package rollball.model;
 import rollball.common.P2d;
 import rollball.common.V2d;
 import rollball.model.bbox.RectBoundingBox;
+import rollball.model.events.WorldEventListener;
 import rollball.model.objects.Ball;
 import rollball.model.objects.PickUpObj;
 
@@ -23,9 +24,11 @@ public class GameState {
     /**
      * Initialize the world and the score game.
      * TODO Improve the settings management.
+     * @param listener
+     *          the world event listener
      */
-    public GameState() {
-        this.world = new World(new RectBoundingBox(new P2d(-500, 300), new P2d(500, -300)));
+    public GameState(final WorldEventListener listener) {
+        this.world = new World(new RectBoundingBox(new P2d(-500, 300), new P2d(500, -300)), listener);
         this.world.setBall(new Ball(new P2d(0, 0), 25, new V2d(150, 0)));
         this.world.addPickUp(new PickUpObj(new P2d(78, -89), 12));
         this.world.addPickUp(new PickUpObj(new P2d(400, 200), 32));

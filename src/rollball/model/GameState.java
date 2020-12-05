@@ -2,6 +2,9 @@ package rollball.model;
 
 import rollball.common.P2d;
 import rollball.common.V2d;
+import rollball.model.bbox.RectBoundingBox;
+import rollball.model.objects.Ball;
+import rollball.model.objects.PickUpObj;
 
 /**
  * Manages the game: it keeps track of the game state

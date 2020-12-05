@@ -65,7 +65,6 @@ public final class Scene {
 
         private static final int RATIO_X = 1;
         private static final int RATIO_Y = 1;
-
         private static final int UP = 38;
         private static final int DOWN = 40;
         private static final int RIGHT = 39;
@@ -92,32 +91,32 @@ public final class Scene {
             return (int) Math.round(centerY - p.getY() * RATIO_Y);
         }
 
-        private int getDeltaXinPixel(final double dx){
+        private int getDeltaXinPixel(final double dx) {
             return (int)  Math.round(dx * RATIO_X);
         }
 
         public void paint(final Graphics g) {
+            // Graphics2D
             final Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
                     RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setRenderingHint(RenderingHints.KEY_RENDERING, 
                     RenderingHints.VALUE_RENDER_QUALITY); 
             g2.clearRect(0, 0, this.getWidth(), this.getHeight());
-            final Set<GameObject> objects = world.getSceneObjects();
             final Stroke strokeBall = new BasicStroke(4f);
             final Stroke strokePick = new BasicStroke(6f);
             final Stroke strokeBorder = new BasicStroke(3f);
-
+            // Paint the game boundaries
             final RectBoundingBox bbox = world.getBoundingBox();
             final int x0 = getXinPixel(bbox.getUpperLeftCorner());
             final int y0 = getYinPixel(bbox.getUpperLeftCorner());
             final int x1 = getXinPixel(bbox.getBottomRightCorner());
             final int y1 = getYinPixel(bbox.getBottomRightCorner());
-
             g2.setColor(Color.BLACK);
             g2.setStroke(strokeBorder);
             g2.drawRect(x0, y0, x1 - x0, y1 - y0);
-
+            // Paint the game objects: ball and pickup objects
+            final Set<GameObject> objects = world.getSceneObjects();
             objects.stream().forEach(obj -> {
                 final P2d pos = obj.getCurrentPos();
                 final int x = getXinPixel(pos);

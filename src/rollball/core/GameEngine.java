@@ -10,6 +10,7 @@ import rollball.input.Command;
 import rollball.input.Controller;
 import rollball.model.Ball;
 import rollball.model.PickUpObj;
+import rollball.model.RectBoundingBox;
 import rollball.model.World;
 
 /**
@@ -18,6 +19,9 @@ import rollball.model.World;
  */
 public class GameEngine implements Controller {
 
+    /**
+     * The game frame rate.
+     */
     private static final long PERIOD = 50;
     /**
      * The world game.
@@ -34,31 +38,47 @@ public class GameEngine implements Controller {
     private final BlockingQueue<Command> cmdQueue;
 
     public GameEngine() {
+        /**
+         * TODO Improve how the settings are set.
+         */
         this.cmdQueue = new ArrayBlockingQueue<>(100);
-        this.world = new World();
-        this.world.setBall(new Ball(new P2d(-1, -1), new V2d(1, 1)));
-        this.world.addPickUp(new PickUpObj(new P2d(0, 1)));
-        this.world.addPickUp(new PickUpObj(new P2d(2, 0)));
+        this.world = new World(new RectBoundingBox(new P2d(-500, 300), new P2d(500, -300)));
+        this.world.setBall(new Ball(new P2d(0, 0), 25, new V2d(150, 0)));
+        this.world.addPickUp(new PickUpObj(new P2d(78, -89), 12));
+        this.world.addPickUp(new PickUpObj(new P2d(400, 200), 32));
+        this.world.addPickUp(new PickUpObj(new P2d(-205, 100), 150));
+        this.world.addPickUp(new PickUpObj(new P2d(-250, -250), 20));
+        this.world.addPickUp(new PickUpObj(new P2d(150, 0), 100));
         this.view = new Scene(this.world);
         this.view.setInputController(this);
     }
 
     /**
-     * Implements the GAME LOOP pattern: control loop ruling the 
-     * execution of a game. Decouple the progression of game time 
-     * from user input and processor speed. 
+     * Extract, if present, a command in the command 
+     * queue and executes it.
      */
-    public void mainLoop() {
-        long lastTime = System.currentTimeMillis();
-        while (true) {
-            final long current = System.currentTimeMillis();
-            final int elapsed = (int) (current - lastTime);
-            processInput();
-            updateGame(elapsed);
-            render();
-            waitForNextFrame(current);
-            lastTime = current;
+    private void processInput() {
+        final Command cmd = cmdQueue.poll();
+        if (cmd != null) {
+            cmd.execute(world);
         }
+    }
+
+    /**
+     * Updates the world consistently with the amount of 
+     * time passed from the last update.
+     * @param elapsed
+     *          the amount of time elapsed from the last update
+     */
+    private void updateGame(final int elapsed) {
+        this.world.updateWorld(elapsed);
+    }
+
+    /**
+     * View rendering.
+     */
+    private void render() {
+        this.view.render();
     }
 
     /**
@@ -76,26 +96,20 @@ public class GameEngine implements Controller {
     }
 
     /**
-     * View rendering.
+     * Implements the GAME LOOP pattern: control loop ruling the 
+     * execution of a game. Decouple the progression of game time 
+     * from user input and processor speed. 
      */
-    private void render() {
-        this.view.render();
-    }
-
-    /**
-     * Updates the world consistently with the amount of 
-     * time passed from the last update.
-     * @param elapsed
-     *          the amount of time elapsed from the last update
-     */
-    private void updateGame(final int elapsed) {
-        this.world.updateWorld(elapsed);
-    }
-
-    private void processInput() {
-        final Command cmd = cmdQueue.poll();
-        if (cmd != null) {
-            cmd.execute(world);
+    public void mainLoop() {
+        long lastTime = System.currentTimeMillis();
+        while (true) {
+            final long current = System.currentTimeMillis();
+            final int elapsed = (int) (current - lastTime);
+            processInput();
+            updateGame(elapsed);
+            render();
+            waitForNextFrame(current);
+            lastTime = current;
         }
     }
 

@@ -5,8 +5,30 @@ import rollball.common.V2d;
 
 public class Ball extends AbstractGameObject {
 
-    public Ball(final P2d pos, final V2d vel) {
-        super(pos, vel);
+    /**
+     * The game ball radius.
+     */
+    private final double radius;
+
+    /**
+     * Initialize the ball game.
+     * @param pos
+     *          the central position
+     * @param radius
+     *          the ball radius
+     * @param vel
+     *          the ball speed
+     */
+    public Ball(final P2d pos, final double radius, final V2d vel) {
+        super(pos, vel, new CircleBoundingBox(new P2d(pos.getX(), pos.getY()), radius));
+        this.radius = radius;
+    }
+
+    /**
+     * @return the ball radius.
+     */
+    public double getRadius() {
+        return this.radius;
     }
 
 }

@@ -33,6 +33,21 @@ public interface GameObject {
     void setVel(V2d vel);
 
     /**
+     * Flip horizontally the velocity of the game object.
+     */
+    void flipVelOnX();
+
+    /**
+     * Flip vertically the velocity of the game object.
+     */
+    void flipVelOnY();
+
+    /**
+     * @return the game object bounding box.
+     */
+    BoundingBox getBoundingBox();
+
+    /**
      * Update the object position consistently with
      * the amount of time passed from the last update.
      * @param dt

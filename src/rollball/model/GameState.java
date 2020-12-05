@@ -11,7 +11,7 @@ import rollball.model.objects.PickUpObj;
  * Manages the game: it keeps track of the game state
  * meaning both the world and its objects and the play score.
  */
-public class GameState {
+public final class GameState {
     /**
      * The game score.
      */

@@ -29,23 +29,17 @@ public class World {
     /**
      * The world event listener.
      */
-    private WorldEventListener eventListener;
+    private final WorldEventListener eventListener;
 
     /**
      * Initialize a new word.
      * @param box
      *          the world rectangular bounding box
-     */
-    public World(final RectBoundingBox box) {
-        this.worldBox = box;
-    }
-
-    /**
-     * Hooks the event listener to the world.
      * @param listener
-     *          the world event listener.
+     *          the world event listener
      */
-    public void setEventListener(final WorldEventListener listener) {
+    public World(final RectBoundingBox box, final WorldEventListener listener) {
+        this.worldBox = box;
         this.eventListener = listener;
     }
 

@@ -4,6 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import rollball.common.P2d;
+import rollball.model.bbox.RectBoundingBox;
+import rollball.model.events.HitBorderEvent;
+import rollball.model.events.HitPickableEvent;
+import rollball.model.events.WorldEventListener;
+import rollball.model.objects.Ball;
+import rollball.model.objects.GameObject;
+import rollball.model.objects.PickUpObj;
 
 public class World {
 
@@ -19,14 +26,21 @@ public class World {
      * The world bounding box.
      */
     private final RectBoundingBox worldBox;
+    /**
+     * The world event listener.
+     */
+    private final WorldEventListener eventListener;
 
     /**
      * Initialize a new word.
      * @param box
-     *          the world rectangular bounding box.
+     *          the world rectangular bounding box
+     * @param listener
+     *          the world event listener
      */
-    public World(final RectBoundingBox box) {
+    public World(final RectBoundingBox box, final WorldEventListener listener) {
         this.worldBox = box;
+        this.eventListener = listener;
     }
 
     /**
@@ -53,6 +67,15 @@ public class World {
         this.picks.add(obj);
     }
 
+    /**
+     * Remove the pickup object.
+     * @param obj
+     *          the pickup to remove
+     */
+    public void removePickUp(final PickUpObj obj) {
+        this.picks.remove(obj);
+    }
+
     /** 
      * Check if the ball is touching the world boundaries
      * and, if so, flips the direction of the ball.
@@ -68,17 +91,21 @@ public class World {
         if (ballPos.getY() + ballRadius > upperLimit) {
             this.ball.setPos(new P2d(ballPos.getX(), upperLimit - ballRadius));
             this.ball.flipVelOnY();
+            this.eventListener.notifyEvent(new HitBorderEvent(new P2d(ballPos.getX(), upperLimit)));
         } else if (ballPos.getY() - ballRadius < bottomLimit) {
             this.ball.setPos(new P2d(ballPos.getX(), bottomLimit + ballRadius));
             this.ball.flipVelOnY();
+            this.eventListener.notifyEvent(new HitBorderEvent(new P2d(ballPos.getX(), bottomLimit)));
         }
         // Left and right boundaries
         if (ballPos.getX() + ballRadius > rightLimit) {
             this.ball.setPos(new P2d(rightLimit - ballRadius, ballPos.getY()));
             this.ball.flipVelOnX();
+            this.eventListener.notifyEvent(new HitBorderEvent(new P2d(rightLimit, ballPos.getY())));
         } else if (ballPos.getX() - ballRadius < leftLimit) {
             this.ball.setPos(new P2d(leftLimit + ballRadius, ballPos.getY()));
             this.ball.flipVelOnX();
+            this.eventListener.notifyEvent(new HitBorderEvent(new P2d(leftLimit, ballPos.getY())));
         }
     }
 
@@ -97,7 +124,7 @@ public class World {
             }
         }
         if (found != null) {
-            picks.remove(found);
+            this.eventListener.notifyEvent(new HitPickableEvent(found));
         }
     }
 

@@ -4,7 +4,7 @@ import rollball.common.V2d;
 import rollball.model.World;
 import rollball.model.objects.Ball;
 
-public class MoveDown implements Command {
+public final class MoveDown implements Command {
 
     /**
      * {@inheritDoc}

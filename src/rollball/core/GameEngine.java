@@ -3,30 +3,29 @@ package rollball.core;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import rollball.common.P2d;
-import rollball.common.V2d;
 import rollball.graphics.Scene;
 import rollball.input.Command;
 import rollball.input.Controller;
-import rollball.model.Ball;
-import rollball.model.PickUpObj;
-import rollball.model.RectBoundingBox;
-import rollball.model.World;
+import rollball.model.GameState;
+import rollball.model.events.HitBorderEvent;
+import rollball.model.events.HitPickableEvent;
+import rollball.model.events.WorldEvent;
+import rollball.model.events.WorldEventListener;
 
 /**
  * [CONTROLLER]
  * Game engine skeleton.
  */
-public class GameEngine implements Controller {
+public final class GameEngine implements Controller, WorldEventListener {
 
     /**
      * The game frame rate.
      */
     private static final long PERIOD = 50;
     /**
-     * The world game.
+     * The world game state.
      */
-    private final World world;
+    private final GameState gameState;
     /**
      * The game view.
      */
@@ -36,20 +35,17 @@ public class GameEngine implements Controller {
      * [NOTE] BlockingQueue implementations are thread-safe.
      */
     private final BlockingQueue<Command> cmdQueue;
+    /**
+     * The queue of events to be processed.
+     */
+    private final BlockingQueue<WorldEvent> eventsQueue;
 
     public GameEngine() {
-        /**
-         * TODO Improve how the settings are set.
-         */
+        // Say to the gameState that I am the world event listener!
+        this.gameState = new GameState(this);
         this.cmdQueue = new ArrayBlockingQueue<>(100);
-        this.world = new World(new RectBoundingBox(new P2d(-500, 300), new P2d(500, -300)));
-        this.world.setBall(new Ball(new P2d(0, 0), 25, new V2d(150, 0)));
-        this.world.addPickUp(new PickUpObj(new P2d(78, -89), 12));
-        this.world.addPickUp(new PickUpObj(new P2d(400, 200), 32));
-        this.world.addPickUp(new PickUpObj(new P2d(-205, 100), 150));
-        this.world.addPickUp(new PickUpObj(new P2d(-250, -250), 20));
-        this.world.addPickUp(new PickUpObj(new P2d(150, 0), 100));
-        this.view = new Scene(this.world);
+        this.eventsQueue = new ArrayBlockingQueue<>(100);
+        this.view = new Scene(this.gameState);
         this.view.setInputController(this);
     }
 
@@ -60,7 +56,7 @@ public class GameEngine implements Controller {
     private void processInput() {
         final Command cmd = cmdQueue.poll();
         if (cmd != null) {
-            cmd.execute(world);
+            cmd.execute(this.gameState.getWorld());
         }
     }
 
@@ -71,7 +67,8 @@ public class GameEngine implements Controller {
      *          the amount of time elapsed from the last update
      */
     private void updateGame(final int elapsed) {
-        this.world.updateWorld(elapsed);
+        this.gameState.update(elapsed);
+        checkEvents();
     }
 
     /**
@@ -113,11 +110,31 @@ public class GameEngine implements Controller {
         }
     }
 
+    private void checkEvents() {
+        this.eventsQueue.stream().forEach(ev -> {
+            if (ev instanceof HitPickableEvent) {
+                final HitPickableEvent pickEv = (HitPickableEvent) ev;
+                this.gameState.getWorld().removePickUp(pickEv.getCollisionPick());
+                this.gameState.incScore();
+            } else if (ev instanceof HitBorderEvent) {
+                this.gameState.decScore();
+            }
+        });
+        this.eventsQueue.clear();
+    }
+
     /**
      * {@inheritDoc}
      */
     public void notifyCommand(final Command cmd) {
         cmdQueue.add(cmd);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void notifyEvent(final WorldEvent ev) {
+        eventsQueue.add(ev);
     }
 
 }

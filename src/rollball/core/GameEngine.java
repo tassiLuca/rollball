@@ -45,8 +45,7 @@ public final class GameEngine implements Controller, WorldEventListener {
         this.gameState = new GameState(this);
         this.cmdQueue = new ArrayBlockingQueue<>(100);
         this.eventsQueue = new ArrayBlockingQueue<>(100);
-        this.view = new Scene(this.gameState);
-        this.view.setInputController(this);
+        this.view = new Scene(this.gameState, this);
     }
 
     /**

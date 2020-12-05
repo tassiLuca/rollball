@@ -4,19 +4,34 @@ package rollball.common;
  * A 2-dimensional vector.
  */
 public final class V2d {
-
+    /**
+     * The horizontal component. 
+     */
     private final double x;
+    /**
+     * The vertical component.
+     */
     private final double y;
 
     /**
+     * Initialize a new vector.
      * @param x
+     *          the horizontal component.
      * @param y
+     *          the vertical component.
      */
     public V2d(final double x, final double y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Initialize a new vector with two points.
+     * @param from
+     *          the starting point
+     * @param to
+     *          the arrival point
+     */
     public V2d(final P2d from, final P2d to) {
         this.x = to.getX() - from.getX();
         this.y = to.getY() - from.getY();

@@ -65,4 +65,13 @@ public class GameState {
         return this.score;
     }
 
+    /**
+     * Update the world.
+     * @param dt
+     *          the time passed
+     */
+    public void update(final int dt) {
+        this.world.updateWorld(dt);
+    }
+
 }

@@ -3,6 +3,7 @@ package rollball.graphics;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -21,11 +22,11 @@ import rollball.input.MoveLeft;
 import rollball.input.MoveRight;
 import rollball.input.MoveUp;
 import rollball.input.Controller;
-import rollball.model.Ball;
-import rollball.model.GameObject;
-import rollball.model.PickUpObj;
-import rollball.model.RectBoundingBox;
-import rollball.model.World;
+import rollball.model.GameState;
+import rollball.model.bbox.RectBoundingBox;
+import rollball.model.objects.Ball;
+import rollball.model.objects.GameObject;
+import rollball.model.objects.PickUpObj;
 
 /**
  * [VIEW]
@@ -34,11 +35,11 @@ import rollball.model.World;
 public final class Scene {
 
     private final JFrame frame = new JFrame("Roll A Ball");
-    private final World world;
+    private final GameState gameState;
     private Controller controller;
 
-    public Scene(final World world) {
-        this.world = world;
+    public Scene(final GameState gameState) {
+        this.gameState = gameState;
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int screenWidth = (int) screen.getWidth(); 
         final int screenHeight = (int) screen.getHeight();
@@ -72,6 +73,7 @@ public final class Scene {
         private static final long serialVersionUID = 1L;
         private final int centerX;
         private final int centerY;
+        private final Font scoreFont;
 
         private ScenePanel(final int screenWidth, final int screenHeight) {
             this.setSize(screenWidth, screenHeight);
@@ -79,6 +81,7 @@ public final class Scene {
             this.setFocusable(true);
             this.setFocusTraversalKeysEnabled(false);
             this.requestFocusInWindow(); 
+            this.scoreFont = new Font("Verdana", Font.PLAIN, 35);
             this.centerX = screenWidth / 2;
             this.centerY = screenHeight / 2;
         }
@@ -107,7 +110,7 @@ public final class Scene {
             final Stroke strokePick = new BasicStroke(6f);
             final Stroke strokeBorder = new BasicStroke(3f);
             // Paint the game boundaries
-            final RectBoundingBox bbox = world.getBoundingBox();
+            final RectBoundingBox bbox = gameState.getWorld().getBoundingBox();
             final int x0 = getXinPixel(bbox.getUpperLeftCorner());
             final int y0 = getYinPixel(bbox.getUpperLeftCorner());
             final int x1 = getXinPixel(bbox.getBottomRightCorner());
@@ -116,7 +119,7 @@ public final class Scene {
             g2.setStroke(strokeBorder);
             g2.drawRect(x0, y0, x1 - x0, y1 - y0);
             // Paint the game objects: ball and pickup objects
-            final Set<GameObject> objects = world.getSceneObjects();
+            final Set<GameObject> objects = gameState.getWorld().getSceneObjects();
             objects.stream().forEach(obj -> {
                 final P2d pos = obj.getCurrentPos();
                 final int x = getXinPixel(pos);
@@ -135,6 +138,9 @@ public final class Scene {
                     g2.drawRect(x - edge / 2, y - edge / 2, edge, edge);
                 }
             });
+            g2.setFont(scoreFont);
+            g2.setColor(Color.GREEN);
+            g2.drawString("SCORE " + gameState.getScore(), 500, 300);
         }
 
         @Override

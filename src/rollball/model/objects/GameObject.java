@@ -1,7 +1,8 @@
-package rollball.model;
+package rollball.model.objects;
 
 import rollball.common.P2d;
 import rollball.common.V2d;
+import rollball.model.bbox.BoundingBox;
 
 /**
  * Represents a game element.

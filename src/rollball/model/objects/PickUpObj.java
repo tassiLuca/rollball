@@ -1,7 +1,9 @@
-package rollball.model;
+package rollball.model.objects;
 
 import rollball.common.P2d;
 import rollball.common.V2d;
+import rollball.model.bbox.CircleBoundingBox;
+import rollball.model.bbox.RectBoundingBox;
 
 public class PickUpObj extends AbstractGameObject {
 

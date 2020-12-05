@@ -8,21 +8,24 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Set;
 
 import javax.swing.JPanel;
 
 import rollball.common.P2d;
+import rollball.input.Controller;
 import rollball.input.MoveDown;
 import rollball.input.MoveLeft;
 import rollball.input.MoveRight;
 import rollball.input.MoveUp;
+import rollball.model.GameState;
 import rollball.model.bbox.RectBoundingBox;
 import rollball.model.objects.Ball;
 import rollball.model.objects.GameObject;
 import rollball.model.objects.PickUpObj;
 
-public class ScenePanel extends JPanel implements KeyListener {
+public final class ScenePanel extends JPanel implements KeyListener {
     private static final int RATIO_X = 1;
     private static final int RATIO_Y = 1;
     private static final int UP = 38;
@@ -33,8 +36,13 @@ public class ScenePanel extends JPanel implements KeyListener {
     private final int centerX;
     private final int centerY;
     private final Font scoreFont;
+    private final GameState gameState;
+    private final Controller controller;
 
-    private ScenePanel(final int screenWidth, final int screenHeight) {
+    public ScenePanel(final int screenWidth, final int screenHeight, 
+            final Controller controller, final GameState gameState) {
+        this.controller = controller;
+        this.gameState = gameState;
         this.setSize(screenWidth, screenHeight);
         this.addKeyListener(this);
         this.setFocusable(true);
